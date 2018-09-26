@@ -1,0 +1,31 @@
+{
+  "name": "hapitodos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "boom": "^7.2.0",
+    "hapi": "^17.5.4",
+    "hapi-auth-basic": "^5.0.0",
+    "hapi-auth-jwt2": "^8.1.0",
+    "hapi-redis2": "^2.0.4",
+    "hoek": "^5.0.4",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "objection": "^1.2.6",
+    "redis": "^2.8.0",
+    "sqlite3": "^4.0.2",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.2.0"
+  }
+}
