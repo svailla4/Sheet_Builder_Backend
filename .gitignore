@@ -16,3 +16,4 @@ coverage.*
 .settings
 package-lock.json
 *.sqlite3
+.vscode

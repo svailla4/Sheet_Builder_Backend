@@ -34,7 +34,7 @@ an example of getting some data out of the system or using it.
 * http://localhost:3000/todos //will list all the todos
 * additional http rquests can be found under todo_routes and user_route
 * users with different permissions can be found under seed_data
-* some users will be able to POST and DELETE depending on their authentication
+* some users will be able to POST and DELETE depending on their permissions
 ```
 
 
