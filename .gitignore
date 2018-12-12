@@ -17,3 +17,4 @@ coverage.*
 package-lock.json
 *.sqlite3
 .vscode
+yarn.lock

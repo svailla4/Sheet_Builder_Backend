@@ -11,8 +11,11 @@ Model.knex(knex)
 
 
 const server = Hapi.server({
-    port: 3000,
-    host: 'localhost'
+    port: 8080,
+    host: 'localhost',
+    routes: {
+        cors: true
+    }
 });
 
 
@@ -61,8 +64,7 @@ const init = async () => {
             validate: validate
         });
 
-    server.route(require('./routes/todo_routes'))
-    server.route(require('./routes/user_routes'))
+    server.route(require('./routes/users_routes'))
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);

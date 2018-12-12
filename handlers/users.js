@@ -1,12 +1,10 @@
-const User = require('../models/User')
+const Users = require('../models/Users')
 const bcrypt = require('bcrypt')
 const Boom = require('boom')
 const uuidv5 = require('uuid/v5')
-const NAMESPACE = require('../config').namespace
-const SECRET = require('../config').secret
+const SECRET = require('../config').SECRET
 const JWT = require('jsonwebtoken')
-const {validatePermission, fetchSession} = require('../utils/userFunctions')
-const {generateCurrentTimePlus} = require('../utils/dateFunctions')
+const { generateCurrentTimePlus } = require('../utils/dateFunctions')
 
 const cookie_options = {
     ttl: 365 * 24 * 60 * 60 * 1000, // expires a year from today
@@ -17,51 +15,58 @@ const cookie_options = {
     strictHeader: true   // don't allow violations of RFC 6265
 }
 
-exports.users = async function (request, h) {
-    try{
-        await validatePermission(request, 'admin')
+let createSessionToken = (user) => (
+    {
+        valid: true,
+        id: uuidv5(user.email, SECRET),
+        exp: generateCurrentTimePlus(30), // expires in 30 minutes time
+        subscription: user.subscription
+    }
+)
 
-        let users= await User.query().skipUndefined();
-        
-        if(!users){
-            throw Boom.badRequest(`No users found`)
+exports.createUser = async function (request, h) {
+    try {
+        const client = request.redis.client; // get the redis client
+        const user = await Users.query()
+            .insert({...request.payload, subscription:'freemium', active:true})
+
+        let session = createSessionToken(user);
+        client.set(session.id, JSON.stringify(session)); // store the session in redis
+        const token = JWT.sign(session, SECRET);
+
+        if (user instanceof Users) {
+            return h.response({status:200}).state("token", token, cookie_options);
+        } else {
+            throw Boom.badRequest("Failed to create account")
         }
-        return users;
-    
-    }catch(err){
+    } catch (err) {
         throw Boom.badRequest(err);
-
     }
 }
 
-exports.authenticate = async (request, h) => {
+exports.login = async (request, h) => {
 
     try {
-        const user = await User.query().findOne({ username: request.payload.username });
+        const user = await Users.query().findOne({ email: request.payload.email });
         const client = request.redis.client;
 
         if (!user) {
-            throw Boom.badRequest("username is not found");
+            throw Boom.badRequest("Invalid email");
         }
 
         const isValid = await bcrypt.compare(request.payload.password, user.password);
 
         if (!isValid) {
-            throw Boom.badRequest("invalid password");
+            throw Boom.badRequest("Invalid password");
         }
 
-        var session = {
-            valid: true,
-            id: uuidv5(user.name, NAMESPACE),
-            exp: generateCurrentTimePlus(30), // expires in 30 minutes time
-            permission: user.permission
-        }
+        let session = createSessionToken(user);
 
         client.set(session.id, JSON.stringify(session));
 
         const token = JWT.sign(session, SECRET);
 
-        return h.response({ text: 'Check Browser Cookie or Auth Header for your Token (JWT)' })
+        return h.response({ status: 200})
             .state("token", token, cookie_options)
     } catch (err) {
         throw Boom.badRequest(err);
@@ -79,5 +84,14 @@ exports.logout = async (request, h) => {
             .unstate('token', cookie_options);
     } catch (err) {
         throw Boom.badRequest(err)
+    }
+}
+
+exports.sheets = async (request,h)=>{
+    try{
+        let cookieValue = request.state.data;
+        return h.response({text:'it_worked'});
+    }catch(err){
+        throw Boom.badRequest(err);
     }
 }

@@ -3,46 +3,57 @@ exports.users =[
         id: 1,
         name: 'John',
         password:'123',
-        username:'joe',
-        permission:'user'
+        email:'sdfsdsdf@dasd.com',
+        subscription:'freemium',
+        active: true,
+        registration_token: null
     },
     {
         id: 2,
         name: 'Melissa',
         password:'123',
-        username:'mel',
-        permission:'user'
+        email:'sdfssds3f@dasd.com',
+        subscription:'freemium',
+        active: true,
+        registration_token: null
     },
     {
         id: 3,
         name: 'Beth',
         password:'123',
-        username:'beth',
-        permission:'user'
+        email:'sdfss12f@dasd.com',
+        subscription:'freemium',
+        active: true,
+        registration_token: null
     },
     {
         id: 4,
         name: 'Iris',
         password:'123',
-        username:'iris',
-        permission:'admin'
+        email:'sdvff@dasd.com',
+        subscription:'freemium',
+        active: true,
+        registration_token: null
     }
 ]
 
-exports.todos=[
+exports.sheets=[
     {
         id:1,
-        userId:1,
-        message: 'clean house'
+        title: 'lord of the fly',
+        content: 'content rule',
+        user_id: 1
     },
     {
         id:2,
-        userId:2,
-        message: 'laundry'
+        title: 'king of the hill',
+        content: 'content rule',
+        user_id: 2
     },
     {
         id:3,
-        userId:4,
-        message: 'Laugh a lot'
+        title: 'driving rocks!',
+        content: 'content rule',
+        user_id: 3
     }
 ]

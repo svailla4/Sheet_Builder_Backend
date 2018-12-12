@@ -6,7 +6,7 @@ exports.seed = async function (knex, Promise) {
   // Deletes ALL existing entries
   await Promise.all([
     knex('users').del(),
-    knex('todos').del()])
+    knex('sheets').del()])
 
   const users = await Promise.all(data.users.map(async e => {
     try {
@@ -19,7 +19,7 @@ exports.seed = async function (knex, Promise) {
   }))
 
   await Promise.all([
-    knex('todos').insert(data.todos),
+    knex('sheets').insert(data.sheets),
     knex('users').insert(users)
   ])
 };

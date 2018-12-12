@@ -1,4 +1,3 @@
 module.exports = {
-    secret: "e6a4fac2-04a5-491a-9e00-26b691f946e2",
-    namespace: '31d45cbb-a728-4749-8c06-6331865e5d84'
+    SECRET: "28de4870-fc8b-11e8-9e39-118b0350a790"
 }
