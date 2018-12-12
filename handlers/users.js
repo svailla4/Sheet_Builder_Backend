@@ -18,7 +18,7 @@ const cookie_options = {
 let createSessionToken = (user) => (
     {
         valid: true,
-        id: uuidv5(user.email, SECRET),
+        id: uuidv5(user.id, SECRET),
         exp: generateCurrentTimePlus(30), // expires in 30 minutes time
         subscription: user.subscription
     }

@@ -3,7 +3,7 @@
 const Knex = require('knex')
 const { Model } = require('objection')
 const Hapi = require('hapi');
-const secret = require('./config').secret
+const SECRET = require('./config').SECRET
 
 const knex = Knex(require('./knexfile').development);
 
@@ -59,7 +59,7 @@ const init = async () => {
         });
 
     server.auth.strategy('jwt', 'jwt', {
-            key: secret,
+            key: SECRET,
             verifyOptions: { algorithms: ['HS256'] },
             validate: validate
         });
