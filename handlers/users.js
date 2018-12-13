@@ -1,7 +1,6 @@
 const Users = require('../models/Users')
 const bcrypt = require('bcrypt')
 const Boom = require('boom')
-const uuidv5 = require('uuid/v5')
 const SECRET = require('../config').SECRET
 const JWT = require('jsonwebtoken')
 const { generateCurrentTimePlus } = require('../utils/dateFunctions')
@@ -18,7 +17,7 @@ const cookie_options = {
 let createSessionToken = (user) => (
     {
         valid: true,
-        id: uuidv5(user.id, SECRET),
+        id: user.id,
         exp: generateCurrentTimePlus(30), // expires in 30 minutes time
         subscription: user.subscription
     }
@@ -89,8 +88,10 @@ exports.logout = async (request, h) => {
 
 exports.sheets = async (request,h)=>{
     try{
-        let cookieValue = request.state.data;
-        return h.response({text:'it_worked'});
+        let decoded = request.auth.credentials;
+        let user = await Users.query().findOne({ id: decoded.id });
+        let sheets = await user.$relatedQuery('sheets');
+        return h.response({sheets});
     }catch(err){
         throw Boom.badRequest(err);
     }
