@@ -41,19 +41,19 @@ exports.sheets=[
     {
         id:1,
         title: 'lord of the fly',
-        content: 'content rule',
+        content: 'content',
         user_id: 1
     },
     {
         id:2,
         title: 'king of the hill',
-        content: 'content rule',
+        content: 'content',
         user_id: 2
     },
     {
         id:3,
         title: 'driving rocks!',
-        content: 'content rule',
+        content: 'content',
         user_id: 3
     }
 ]

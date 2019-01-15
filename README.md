@@ -1,6 +1,6 @@
 # Project Title
 
-HapiJs to-do list
+cheat sheets backend
 
 ## Getting Started
 
